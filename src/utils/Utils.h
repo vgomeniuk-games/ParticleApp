@@ -12,7 +12,7 @@
 #include <SDL2/SDL.h>
 
 namespace particleapp {
-namespace utils {
+	// Handle SDL events
 	bool processEvents() {
 		SDL_Event event;  // Event handler
 		while(SDL_PollEvent(&event)){
@@ -22,8 +22,7 @@ namespace utils {
 			}
 		}
 		return true;
-	}
-}
+	};
 }
 
 
