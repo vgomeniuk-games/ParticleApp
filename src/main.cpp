@@ -15,6 +15,7 @@
 #include "Screen.h"
 #include "Swarm.h"
 #include "Particle.h"
+#include "Utils.h"
 
 
 using namespace particleapp;
@@ -30,6 +31,7 @@ int main(int argc, char** argv) {
 	}
 	Swarm swarm;
 	while(true){
+		// Get tick time
 		int execution_time = SDL_GetTicks();
 
 		// Clear previous frame and update particles
@@ -40,7 +42,7 @@ int main(int argc, char** argv) {
 		int green = (1 + sin(execution_time * 0.0002)) * 128;
 		int blue = (1 + sin(execution_time * 0.0003)) * 128;
 
-//		// Draw particles
+		// Draw particles
 		const Particle * const pParticles = swarm.getParticles();
 		for (int i = 0; i < Swarm::NPARTICLES; ++i) {
 			Particle particle = pParticles[i];
@@ -53,7 +55,7 @@ int main(int argc, char** argv) {
 		screen.update();
 
 		// Process pending events
-		if (!screen.processEvents()){
+		if (!utils::processEvents()){
 			break;
 		}
 

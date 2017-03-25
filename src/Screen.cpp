@@ -136,16 +136,6 @@ void Screen::boxBlur(){
 	}
 }
 
-bool Screen::processEvents() {
-	SDL_Event event;  // Event handler
-	while(SDL_PollEvent(&event)){
-		if (event.type == SDL_QUIT){
-			cout << "Close window event." << endl;
-			return false;
-		}
-	}
-	return true;
-}
 void Screen::close() {
 	SDL_DestroyTexture(m_texture);
 	SDL_DestroyRenderer(m_renderer);
