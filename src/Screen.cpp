@@ -52,22 +52,39 @@ bool Screen::init() {
 		SDL_Quit();
 		return false;
 	}
-	// Create and fill buffer
-	auto buffer = unique_ptr<Uint32>(new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT]);
-	memset(buffer.get(), 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
+	// Create buffer
+	m_buffer = unique_ptr<Uint32>(new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT]);
+	return true;
+}
 
-	for (int i=0; i< SCREEN_WIDTH*SCREEN_HEIGHT; ++i){
-		buffer.get()[i] = 0xFFFF00FF;
-	}
-
+void Screen::update(){
 	// Update and render texture to screen
-	SDL_UpdateTexture(m_texture, nullptr, buffer.get(), SCREEN_WIDTH * sizeof(Uint32));
+	SDL_UpdateTexture(m_texture, nullptr, m_buffer.get(), SCREEN_WIDTH * sizeof(Uint32));
 	SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_texture, nullptr, nullptr);
 	SDL_RenderPresent(m_renderer);
-
-	return true;
 }
+
+void Screen::setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue) {
+	Uint32 color = 0;
+
+	// Fill color with hex-color using shifting
+	color += red;
+	color <<= 8;
+
+	color += green;
+	color <<= 8;
+
+	color += blue;
+	color <<= 8;
+
+	color += 0xFF;  // alpha not used in this demo
+
+	// Save pixel color to buffer
+	m_buffer.get()[(y * SCREEN_WIDTH) + x] = color;
+
+}
+
 bool Screen::processEvents() {
 	SDL_Event event;  // Event handler
 	while(SDL_PollEvent(&event)){
