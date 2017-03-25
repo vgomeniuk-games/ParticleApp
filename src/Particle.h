@@ -11,15 +11,21 @@
 namespace particleapp {
 
 struct Particle {
+public:
 	double m_x;  // double used for changing position smoothly
 	double m_y;
-
-	double m_speed;
-	double m_direction;  // Direction in radians
 
 public:
 	Particle();
 	void update(int delta_time);
+
+private:
+	double m_speed;
+	double m_direction;  // Direction in radians
+
+private:
+	void init();
+
 };
 
 } /* namespace particleapp */

@@ -14,7 +14,7 @@ namespace particleapp {
 
 class Swarm {
 public:
-	const static int NPARTICLES = 1000;
+	const static int NPARTICLES = 5000;
 private:
 	std::shared_ptr<Particle> const m_Particles;
 	int last_tick;
