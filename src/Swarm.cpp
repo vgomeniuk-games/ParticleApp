@@ -9,19 +9,15 @@
 
 namespace particleapp {
 
-Swarm::Swarm() : m_Particles(new Particle[NPARTICLES]), last_tick(0) {
-	// TODO Auto-generated constructor stub
-
-}
-
-Particle* const Swarm::getParticles() {
-	return m_Particles.get();
+shpVector const Swarm::getParticles() {
+	return m_particles;
 }
 
 void Swarm::update(int execution_time){
+
 	int delta_time = execution_time - last_tick;
-	for (int p = 0; p < NPARTICLES; ++p) {
-		m_Particles.get()[p].update(delta_time);
+	for (int p = 0; p < SIZE; ++p) {
+		(*m_particles)[p].update(delta_time);
 	}
 	last_tick = execution_time;
 }

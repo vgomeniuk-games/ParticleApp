@@ -7,6 +7,7 @@
 //============================================================================
 
 #include <iostream>
+#include <vector>
 #include <memory>
 #include <math.h>
 #include <stdlib.h>
@@ -43,9 +44,9 @@ int main(int argc, char** argv) {
 		int blue = (1 + sin(execution_time * 0.0003)) * 128;
 
 		// Draw particles
-		const Particle * const pParticles = swarm.getParticles();
-		for (int i = 0; i < Swarm::NPARTICLES; ++i) {
-			Particle particle = pParticles[i];
+		std::shared_ptr<std::vector<Particle>> pParticles = swarm.getParticles();
+		for (int i = 0; i < Swarm::SIZE; ++i) {
+			Particle particle = (*pParticles)[i];
 			int x = (particle.m_x + 1) * Screen::SCREEN_WIDTH / 2;
 			int y = particle.m_y * Screen::SCREEN_WIDTH / 2 + Screen::SCREEN_HEIGHT / 2;
 
