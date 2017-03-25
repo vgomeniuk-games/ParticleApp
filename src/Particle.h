@@ -14,13 +14,12 @@ struct Particle {
 	double m_x;  // double used for changing position smoothly
 	double m_y;
 
-	double m_xspeed;
-	double m_yspeed;
+	double m_speed;
+	double m_direction;  // Direction in radians
 
 public:
 	Particle();
 	void update();
-	virtual ~Particle();
 };
 
 } /* namespace particleapp */
