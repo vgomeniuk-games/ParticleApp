@@ -11,25 +11,27 @@
 
 namespace particleapp {
 
-Particle::Particle() : m_x(0), m_y(0) {
+Particle::Particle() : m_x(0), m_y(0), m_speed(0), m_direction(0) {
 	this->init();
 }
 void Particle::init(){
-	m_direction = (2 * M_PI * rand()) / RAND_MAX;
+	m_direction = (2 * M_PI * rand()) / RAND_MAX;  // In local scope [-1:1]
 	m_speed = (0.04 * rand()) / RAND_MAX;
 	m_speed *= m_speed;  // Differentiate particles distribution
 }
 
 void Particle::update(int delta_time) {
+	// Shift direction a bit each frame
 	m_direction += delta_time * 0.0003;
 
+	// Calculate position using speed and direction
 	double xspeed = m_speed * cos(m_direction);
 	double yspeed = m_speed * sin(m_direction);
 
 	m_x += xspeed * delta_time;
 	m_y += yspeed * delta_time;
 
-	// In case particle goes out local scope => initialize new speed / direction
+	// In case particle goes out of local scope => initialize new speed / direction
 	if (m_x < -1 || m_x > 1 || m_y < -1 || m_y > 1){
 		this->init();
 		return;
