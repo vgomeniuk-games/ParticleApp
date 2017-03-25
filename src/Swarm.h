@@ -17,9 +17,10 @@ public:
 	const static int NPARTICLES = 1000;
 private:
 	std::shared_ptr<Particle> const m_Particles;
+	int last_tick;
 public:
 	Swarm();
-	void update();
+	void update(int execution_time);
 	Particle* const getParticles();
 };
 

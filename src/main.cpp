@@ -29,22 +29,22 @@ int main(int argc, char** argv) {
 		return 1;
 	}
 	Swarm swarm;
-	while(true){  // Main application loop
-		// Update particles
+	while(true){
+		int execution_time = SDL_GetTicks();
+
+		// Clear previous frame and update particles
 		screen.clear();
-		swarm.update();
+		swarm.update(execution_time);
 
 		// Change color over time from 0 to 255 (use different multiplier for each RGB channel)
-		int deltaTime = SDL_GetTicks();
-		int red = (1 + sin(deltaTime * 0.0001)) * 128;
-		int green = (1 + sin(deltaTime * 0.0002)) * 128;
-		int blue = (1 + sin(deltaTime * 0.0003)) * 128;
+		int red = (1 + sin(execution_time * 0.0001)) * 128;
+		int green = (1 + sin(execution_time * 0.0002)) * 128;
+		int blue = (1 + sin(execution_time * 0.0003)) * 128;
 
 //		// Draw particles
 		const Particle * const pParticles = swarm.getParticles();
 		for (int i = 0; i < Swarm::NPARTICLES; ++i) {
 			Particle particle = pParticles[i];
-			particle.update();
 			int x = (particle.m_x + 1) * Screen::SCREEN_WIDTH / 2;
 			int y = particle.m_y * Screen::SCREEN_WIDTH / 2 + Screen::SCREEN_HEIGHT / 2;
 

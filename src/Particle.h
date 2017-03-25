@@ -19,7 +19,7 @@ struct Particle {
 
 public:
 	Particle();
-	void update();
+	void update(int delta_time);
 };
 
 } /* namespace particleapp */
