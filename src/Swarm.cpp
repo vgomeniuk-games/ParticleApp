@@ -14,7 +14,6 @@ shpVector const Swarm::getParticles() {
 }
 
 void Swarm::update(int execution_time){
-
 	int delta_time = execution_time - last_tick;
 	for (int p = 0; p < SIZE; ++p) {
 		(*m_particles)[p].update(delta_time);
