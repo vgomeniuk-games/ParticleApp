@@ -33,7 +33,6 @@ int main(int argc, char** argv) {
 		int execution_time = SDL_GetTicks();
 
 		// Clear previous frame and update particles
-		screen.clear();
 		swarm.update(execution_time);
 
 		// Change color over time from 0 to 255 (use different multiplier for each RGB channel)
@@ -50,7 +49,7 @@ int main(int argc, char** argv) {
 
 			screen.setPixel(x, y, red, green, blue);
 		}
-
+		screen.boxBlur();
 		screen.update();
 
 		// Process pending events

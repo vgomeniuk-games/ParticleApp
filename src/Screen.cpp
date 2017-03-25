@@ -9,7 +9,7 @@
 using namespace std;
 namespace particleapp {
 
-Screen::Screen() : m_window(nullptr), m_renderer(nullptr), m_texture(nullptr), m_buffer(nullptr) {
+Screen::Screen() : m_window(nullptr), m_renderer(nullptr), m_texture(nullptr), m_buffer(nullptr), m_blur_buffer(nullptr) {
 }
 
 bool Screen::init() {
@@ -52,9 +52,9 @@ bool Screen::init() {
 		SDL_Quit();
 		return false;
 	}
-	// Create buffer
+	// Create and clear both buffers
 	m_buffer = unique_ptr<Uint32>(new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT]);
-	this->clear();
+	m_blur_buffer = unique_ptr<Uint32>(new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT]);
 	return true;
 }
 
@@ -64,10 +64,6 @@ void Screen::update(){
 	SDL_RenderClear(m_renderer);
 	SDL_RenderCopy(m_renderer, m_texture, nullptr, nullptr);
 	SDL_RenderPresent(m_renderer);
-}
-
-void Screen::clear() {
-	memset(m_buffer.get(), 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
 }
 
 void Screen::setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue) {
@@ -92,6 +88,52 @@ void Screen::setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue) {
 	// Save pixel color to buffer
 	m_buffer.get()[(y * SCREEN_WIDTH) + x] = color;
 
+}
+
+void Screen::boxBlur(){
+	// Swap buffers to  store pixels in blur buffer
+	std::unique_ptr<Uint32> temp = std::move(m_buffer);
+	m_buffer = std::move(m_blur_buffer);
+	m_blur_buffer = std::move(temp);
+
+	for (int y = 0; y < SCREEN_HEIGHT; ++y) {
+		for (int x = 0; x < SCREEN_WIDTH; ++x){
+			// 0 0 0
+			// 0 1 0
+			// 0 0 0
+
+			// Count RGB values of neighbor cells
+			int red_total = 0;
+			int green_total = 0;
+			int blue_total = 0;
+
+			// Iterate over neighbor pixels
+			for (int row = -1; row <= 1; ++row){
+				for (int col = -1; col <= 1; ++col){
+					int nb_x = x + col;
+					int nb_y = y + row;
+
+					// Don't affect pixels outside screen
+					if ((nb_x >= 0 && nb_x < SCREEN_WIDTH) && (nb_y >= 0 && nb_y < SCREEN_HEIGHT)){
+						// Parse pixel color as RGB value
+						Uint32 color = m_blur_buffer.get()[nb_y * SCREEN_WIDTH + nb_x];
+						Uint8 red = color >> 24;
+						Uint8 green = color >> 16;
+						Uint8 blue = color >> 8;
+
+						red_total += red;
+						green_total += green;
+						blue_total += blue;
+					}
+				}
+			}
+			// Calculate average shade for the pixel in matrix of neighbor pixels
+			Uint8 red = red_total / 9;
+			Uint8 green = green_total / 9;
+			Uint8 blue = blue_total / 9;
+			setPixel(x, y, red, green, blue);
+		}
+	}
 }
 
 bool Screen::processEvents() {
