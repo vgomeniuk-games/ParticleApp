@@ -54,6 +54,7 @@ bool Screen::init() {
 	}
 	// Create buffer
 	m_buffer = unique_ptr<Uint32>(new Uint32[SCREEN_WIDTH * SCREEN_HEIGHT]);
+	this->clear();
 	return true;
 }
 
@@ -65,7 +66,15 @@ void Screen::update(){
 	SDL_RenderPresent(m_renderer);
 }
 
+void Screen::clear() {
+	memset(m_buffer.get(), 0, SCREEN_WIDTH * SCREEN_HEIGHT * sizeof(Uint32));
+}
+
 void Screen::setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue) {
+	if (x < 0 || x >= SCREEN_WIDTH || y < 0 || y >= SCREEN_HEIGHT){
+		return;  // Guard accessing pixels outside buffer in case of wrong calculations
+	}
+
 	Uint32 color = 0;
 
 	// Fill color with hex-color using shifting
