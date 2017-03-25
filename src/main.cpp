@@ -60,8 +60,8 @@ int main(int argc, char** argv) {
 		}
 
 	}
-	// Clean up
 
+	// Clean up
 	screen.close();
 	return 0;
 }

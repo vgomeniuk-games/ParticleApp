@@ -15,7 +15,8 @@ Screen::Screen() : m_window(nullptr), m_renderer(nullptr), m_texture(nullptr), m
 bool Screen::init() {
 	// Initialize application
 	if (SDL_Init(SDL_INIT_VIDEO) < 0) {
-		cerr << "SDL_INIT failed: " << SDL_GetError() << endl;
+		cout << "SDL_INIT failed;" << endl;
+		cerr << SDL_GetError() << endl;
 		return false;
 	}
 	// Create window
@@ -30,7 +31,7 @@ bool Screen::init() {
 	if (m_window == nullptr){
 		cout << "Failed to create SDL_Window;" << endl;
 		cerr << SDL_GetError() << endl;
-		SDL_Quit();
+		this->close();
 		return false;
 	}
 	// Create renderer to render information to screen
@@ -38,8 +39,7 @@ bool Screen::init() {
 	if (m_renderer == nullptr) {
 		cout << "Failed to create SDL_Renderer;" << endl;
 		cerr << SDL_GetError() << endl;
-		SDL_DestroyWindow(m_window);
-		SDL_Quit();
+		this->close();
 		return false;
 	}
 	// Create texture to contain information
@@ -47,9 +47,7 @@ bool Screen::init() {
 	if (m_texture == nullptr) {
 		cout << "Failed to create SDL_Texture;" << endl;
 		cerr << SDL_GetError() << endl;
-		SDL_DestroyRenderer(m_renderer);
-		SDL_DestroyWindow(m_window);
-		SDL_Quit();
+		this->close();
 		return false;
 	}
 	// Create and clear both buffers
@@ -137,9 +135,16 @@ void Screen::boxBlur(){
 }
 
 void Screen::close() {
-	SDL_DestroyTexture(m_texture);
-	SDL_DestroyRenderer(m_renderer);
-	SDL_DestroyWindow(m_window);
+	// Close every handler opened and quit application
+	if (m_texture != nullptr){
+		SDL_DestroyTexture(m_texture);
+	}
+	if (m_renderer != nullptr) {
+		SDL_DestroyRenderer(m_renderer);
+	}
+	if (m_window != nullptr){
+		SDL_DestroyWindow(m_window);
+	}
 	SDL_Quit();
 }
 
