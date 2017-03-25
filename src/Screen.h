@@ -5,6 +5,7 @@
  *      Author: vgomeniuk
  */
 #include <memory>
+#include <vector>
 #include <SDL2/SDL.h>
 
 #ifndef SCREEN_H_
@@ -12,24 +13,28 @@
 
 namespace particleapp {
 
+	typedef std::unique_ptr<std::vector<Uint32>> upVector;
+
 class Screen {
 public:
-	const static int SCREEN_WIDTH = 800;
-	const static int SCREEN_HEIGHT = 600;
+	const static int WIDTH = 800;
+	const static int HEIGHT = 600;
 
 public:
-	Screen();
+	Screen() : m_window(nullptr), m_renderer(nullptr), m_texture(nullptr), m_pixel_buffer(nullptr), m_blur_buffer(nullptr) {};
 	bool init();
-	void close();
 	void update();
-	void setPixel(int x, int y, Uint8 red, Uint8 green, Uint8 blue);
+	void setPixel(int x, int y, Uint32 color);
 	void boxBlur();
+	void close();
+
 private:
 	SDL_Window* m_window;
 	SDL_Renderer* m_renderer;
 	SDL_Texture* m_texture;
-	std::unique_ptr<Uint32> m_buffer;
-	std::unique_ptr<Uint32> m_blur_buffer;
+	upVector m_pixel_buffer;
+	upVector m_blur_buffer;
+
 };
 
 } /* namespace particleapp */
