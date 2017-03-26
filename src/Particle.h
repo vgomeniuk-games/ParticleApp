@@ -8,6 +8,8 @@
 #ifndef PARTICLE_H_
 #define PARTICLE_H_
 
+#include <utility>
+
 namespace particleapp {
 
 struct Particle {
@@ -17,8 +19,8 @@ public:
 
 public:
 	Particle();
-	void update(int delta_time);
-
+	void update(int deltaTime);
+	std::pair<int, int> getWorldPosition(int width, int height) const;
 private:
 	double m_speed;
 	double m_direction;  // Direction in radians

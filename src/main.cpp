@@ -31,21 +31,19 @@ int main(int argc, char** argv) {
 	if (!screen.init()){
 		return 1;
 	}
-	Swarm swarm;
+	Swarm swarm;  // Particles container
+	Uint32 color;  // Color of particles
+	int tickTime;  // Time since 1st tick
 	while(true){
-		// Get tick time
-		int execution_time = SDL_GetTicks();
+		tickTime = SDL_GetTicks();
+		swarm.update(tickTime);  // Clear previous frame and update particles
 
-		// Clear previous frame and update particles
-		swarm.update(execution_time);
-
-		// Draw particles
-		shpVector pParticles = swarm.getParticles();
-		for (int i = 0; i < Swarm::SIZE; ++i) {
-			Particle particle = (*pParticles)[i];
-			int x = (particle.m_x + 1) * Screen::WIDTH / 2;
-			int y = particle.m_y * Screen::WIDTH / 2 + Screen::HEIGHT / 2;
-			Uint32 color = ColorGenerator::generate(execution_time);
+		// Generate color and draw particles
+		color = ColorGenerator::generate(tickTime);
+		for (auto const & particle : (*swarm.getParticles())) {
+			// Get particle world position
+			int x, y;
+			std::tie(x, y) = particle.getWorldPosition(Screen::WIDTH, Screen::HEIGHT);
 			screen.setPixel(x, y, color);
 		}
 		screen.boxBlur();

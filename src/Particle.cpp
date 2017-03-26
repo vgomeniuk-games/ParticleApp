@@ -20,16 +20,16 @@ void Particle::init(){
 	m_speed *= m_speed;  // Differentiate particles distribution
 }
 
-void Particle::update(int delta_time) {
+void Particle::update(int deltaTime) {
 	// Shift direction a bit each frame
-	m_direction += delta_time * 0.0003;
+	m_direction += deltaTime * 0.0003;
 
-	// Calculate position using speed and direction
+	// Calculate next position using speed and direction and delta time since last frame
 	double xspeed = m_speed * cos(m_direction);
 	double yspeed = m_speed * sin(m_direction);
 
-	m_x += xspeed * delta_time;
-	m_y += yspeed * delta_time;
+	m_x += xspeed * deltaTime;
+	m_y += yspeed * deltaTime;
 
 	// In case particle goes out of local scope => initialize new speed / direction
 	if (m_x < -1 || m_x > 1 || m_y < -1 || m_y > 1){
@@ -40,6 +40,12 @@ void Particle::update(int delta_time) {
 	if (rand() < (RAND_MAX / 100)){
 		this->init();
 	}
+}
+
+std::pair<int, int> Particle::getWorldPosition(int width, int height) const {
+	int x = (m_x + 1) * width / 2;
+	int y = m_y * width / 2 + height / 2;
+	return std::make_pair(x, y);
 }
 
 } /* namespace particleapp */
