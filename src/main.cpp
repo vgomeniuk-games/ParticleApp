@@ -8,11 +8,12 @@
 
 #include <iostream>
 #include <vector>
+#include <tuple>
 #include <memory>
 #include <math.h>
 #include <stdlib.h>
 #include <time.h>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 #include "Screen.h"
 #include "Swarm.h"
 #include "Particle.h"

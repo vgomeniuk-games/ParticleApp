@@ -9,7 +9,7 @@
 #define UTILS_H_
 
 #include <iostream>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 namespace particleapp {
 	// Handle SDL events

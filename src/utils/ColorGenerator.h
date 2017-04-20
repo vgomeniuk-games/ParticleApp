@@ -8,7 +8,7 @@
 #ifndef UTILS_COLORGENERATOR_H_
 #define UTILS_COLORGENERATOR_H_
 
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 namespace particleapp {
 

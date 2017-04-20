@@ -6,7 +6,7 @@
  */
 #include <memory>
 #include <vector>
-#include <SDL2/SDL.h>
+#include <SDL.h>
 
 #ifndef SCREEN_H_
 #define SCREEN_H_
