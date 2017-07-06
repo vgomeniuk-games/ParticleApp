@@ -1,5 +1,8 @@
 # ParticleApp
 Sample of graphic programming using SDL2: Particle Effect.
+
+![Sample](https://github.com/vgomeniuk/ParticleApp/blob/master/animation.gif)
+
 First, application was developed using Eclipse CDT and GCC compiler.
 After MVP app was created. IDE was swithced to VS 17 to profile and improve performance.
 
