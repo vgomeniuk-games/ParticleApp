@@ -6,7 +6,7 @@ Sample of graphic programming using SDL2: Particle Effect.
 First, application was developed using Eclipse CDT and GCC compiler.
 After MVP app was created. IDE was swithced to VS 17 to profile and improve performance.
 
-Useful guides and FAQs:
+## Useful guides and FAQs:
 
 [SDL Installation](https://wiki.libsdl.org/Installation)
 
